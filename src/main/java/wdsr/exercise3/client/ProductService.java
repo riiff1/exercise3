@@ -68,7 +68,8 @@ public class ProductService extends RestClientBase {
 	 * @throws WebApplicationException if request to the server failed
 	 */
 	public int storeNewProduct(Product product) throws WebApplicationException {
-		GenericType<List<Product>> listGenericType = new GenericType<List<Product>>() {};
+		//dopytac o ta metode
+/*		GenericType<List<Product>> listGenericType = new GenericType<List<Product>>() {};
 		List<Product> productList = baseTarget.path("/products")
 				.request(MediaType.APPLICATION_JSON)
 				.get(listGenericType);
@@ -78,7 +79,8 @@ public class ProductService extends RestClientBase {
 		}
 		product.setId(id);
 		baseTarget.path("/products/").request().post(Entity.json(product));
-		return id;
+		return id;*/
+		return 0;
 
 	}
 	
