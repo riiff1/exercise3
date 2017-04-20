@@ -9,6 +9,8 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import wdsr.exercise3.model.Product;
 import wdsr.exercise3.model.ProductType;
 
@@ -67,20 +69,19 @@ public class ProductService extends RestClientBase {
 	 * @return ID of the new product.
 	 * @throws WebApplicationException if request to the server failed
 	 */
-	public int storeNewProduct(Product product) throws WebApplicationException {
+	public int storeNewProduct(Product product) {
 		//dopytac o ta metode
-/*		GenericType<List<Product>> listGenericType = new GenericType<List<Product>>() {};
+		GenericType<List<Product>> listGenericType = new GenericType<List<Product>>() {};
 		List<Product> productList = baseTarget.path("/products")
 				.request(MediaType.APPLICATION_JSON)
 				.get(listGenericType);
 		int id = productList.size()+1;
 		if(product.getId() != null) {
-			return -1;
+			throw new WebApplicationException("id has to be null");
 		}
-		product.setId(id);
-		baseTarget.path("/products/").request().post(Entity.json(product));
-		return id;*/
-		return 0;
+		Response response = baseTarget.path("/products").request().post(Entity.json(product), Response.class);
+		response.close();
+		return id;
 
 	}
 	
@@ -89,7 +90,10 @@ public class ProductService extends RestClientBase {
 	 * @param product Product with updated values. Its ID must identify an existing resource.
 	 * @throws NotFoundException if no product found for the given ID.
 	 */
-	public void updateProduct(Product product) throws NotFoundException {
+	public void updateProduct(Product product) {
+		if(retrieveProduct(product.getId()) == null) {
+			throw new NotFoundException();
+		}
 		baseTarget.path("/products/{id}").resolveTemplate("id", product.getId()).request().put(Entity.json(product));
 	}
 
@@ -100,6 +104,9 @@ public class ProductService extends RestClientBase {
 	 * @throws NotFoundException if no product found for the given ID.
 	 */
 	public void deleteProduct(Product product) throws NotFoundException {
+		if(retrieveProduct(product.getId()) == null) {
+			throw new NotFoundException();
+		}
 		baseTarget.path("/products/{id}").resolveTemplate("id", product.getId()).request().delete();
 	}
 }
