@@ -93,10 +93,10 @@ public class RecordResource {
 		 if(record.getId() == null || record.getId() == id) {
 			if(recordInventory.updateRecord(id, record)) {
 				//update istniejacego rekordu
-				Response.status(Response.Status.OK).build();
+				return Response.noContent().build();
 			}
 			//brak rekordu do updatu
-			Response.status(Response.Status.NOT_FOUND).build();
+			return Response.status(Response.Status.NOT_FOUND).build();
 		 }
 		 //zle zapytanie
 		 return Response.status(Response.Status.BAD_REQUEST).build();
@@ -113,7 +113,7 @@ public class RecordResource {
 	@Produces(MediaType.APPLICATION_XML)
 	public Response deleteRecord(@PathParam(value = "id") int id) {
 		if(recordInventory.deleteRecord(id)) {
-			Response.status(Response.Status.OK).build();
+			return Response.noContent().build();
 		}
 		return Response.status(Response.Status.NOT_FOUND).build();
 	}

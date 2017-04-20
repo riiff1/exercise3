@@ -37,7 +37,7 @@ public class RecordResourceTest {
 	@Before
 	public void setUp() {
 		server = new MyServer(SERVER_HOST, SERVER_PORT);
-		server.deploy(RecordApplication.class, "Records inventory", "/", "/");
+		server.deploy(RecordApplication.class, "RecordsInventory", "/", "/");
 		client = ClientBuilder.newClient();
 		baseTarget = client.target("http://"+SERVER_HOST+":"+SERVER_PORT);
 	}
